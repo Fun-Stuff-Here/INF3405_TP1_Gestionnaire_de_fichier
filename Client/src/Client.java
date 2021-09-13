@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import java.io.DataInputStream;
 import java.net.Socket;
 
@@ -29,19 +29,7 @@ public class Client
 		
 		// Fermeture de la connexion avec le serveur
 		socket.close();
-=======
-/**
- * 
- * @author nicol
- *
- */
-public class Client {
-/**
- * 
- * @param args
- */
-	public static void main(String[] args) {
-		System.out.print("Client Hello Word! :-)\n");
->>>>>>> 394c01089da490257777070a97db5f2fe7f6fd39
 	}
+	
 }
+
