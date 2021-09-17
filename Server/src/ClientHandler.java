@@ -6,6 +6,11 @@ public class ClientHandler extends Thread {
 		private Socket socket;
 		private int clientNumber;
 		
+		/**
+		 * 
+		 * @param socket 
+		 * @param clientNumber connected to the server
+		 */
 		public ClientHandler(Socket socket, int clientNumber)
 		{
 			this.socket=socket;
@@ -25,6 +30,7 @@ public class ClientHandler extends Thread {
 				//Envoie un message au client
 				out.writeUTF("Hello from server - you are client#"+ clientNumber);
 				
+				//create the invoker to received and execute commands
 				CommandInvoker invoker = new CommandInvoker(socket);
 				invoker.executeCommands();
 				

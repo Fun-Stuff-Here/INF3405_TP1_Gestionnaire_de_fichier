@@ -16,10 +16,16 @@ public class CommandInvoker {
 	
 	private static final SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd@HH:mm:ss");
 	
+	/**
+	 * 
+	 * @param socket connexion to client
+	 */
 	public CommandInvoker(Socket socket)
 	{
 		this.socket = socket;
 		commands = new HashMap<String, Command>();
+		
+		//create and insert all available commands
 		commands.put("Hi", new BaseCommand("Hi",this));
 		commands.put(HelpCommand.ID, new HelpCommand(this));
 		commands.put(ChangeDirectoryCommand.ID, new ChangeDirectoryCommand(this));
@@ -30,20 +36,27 @@ public class CommandInvoker {
 		commands.put(UploadCommand.ID, new UploadCommand(this));
 	}
 	
+	/**
+	 * routine that interact with the client and execute commands received
+	 * @throws IOException
+	 */
 	public void executeCommands() throws IOException {
 		while(active) {
 			
+			//listen for client input
 			DataInputStream in = new DataInputStream(socket.getInputStream());
 			String command = in.readUTF();
 			
+			//log the incomming request
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			System.out.println("["+socket.getInetAddress().toString().substring(1)+":"+ socket.getPort()+"//"+timeFormat.format(timestamp) +"]: "+command);
 			
-			
+			//separate the command key from the arguments
 			String[] args = command.split(" ");
 			String commandKey = args[0];
 			args = Arrays.copyOfRange(args, 1, args.length);
 
+			//execute the command if available
 			if(commands.containsKey(commandKey))
 				commands.get(commandKey).execute(args);
 			else
@@ -54,18 +67,34 @@ public class CommandInvoker {
 		}
 	}
 
-	public Boolean getActive() {
+	/**
+	 * 
+	 * @return if invoker is active
+	 */
+	public Boolean isActive() {
 		return active;
 	}
 
+	/**
+	 * 
+	 * @param active
+	 */
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
-	
+
+	/**
+	 * 
+	 * @return connexion to the client
+	 */
 	public Socket getSocket() {
 		return socket;
 	}
 	
+	/**
+	 * 
+	 * @return all commands
+	 */
 	public HashMap<String, Command> getCommands(){
 		return commands;
 	}

@@ -4,6 +4,10 @@ public class ChangeDirectoryCommand extends BaseCommand{
 
 public static final String ID = "cd";
 	
+/**
+ * 
+ * @param invoker from which it is call
+ */
 	public ChangeDirectoryCommand(CommandInvoker invoker) {super(ID, invoker);}
 	
 	@Override
