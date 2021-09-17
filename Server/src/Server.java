@@ -76,8 +76,8 @@ private static int getPort() {
 
 		
 		
-		String serverAddress = getIPAddress();
-		int serverPort = getPort();	
+		String serverAddress = "127.0.0.1";//getIPAddress();
+		int serverPort = 5012;//getPort();	
 		
 		
 		

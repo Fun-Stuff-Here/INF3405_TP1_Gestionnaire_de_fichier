@@ -24,6 +24,11 @@ public class ClientHandler extends Thread {
 				
 				//Envoie un message au client
 				out.writeUTF("Hello from server - you are client#"+ clientNumber);
+				
+				CommandInvoker invoker = new CommandInvoker(socket);
+				invoker.executeCommands();
+				
+				
 			} catch (IOException e) 
 			{
 				System.out.println("Error handling client#"+clientNumber+": "+e);

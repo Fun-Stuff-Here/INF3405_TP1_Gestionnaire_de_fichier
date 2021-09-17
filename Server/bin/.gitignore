@@ -1,0 +1,15 @@
+/CommandInvoker.class
+/Command.class
+/BaseCommand.class
+/Command/
+/helpCommand.class
+/changeDirectoryCommand.class
+/listDirectoryCommand.class
+/makeDirectoryCommand.class
+/DeleteCommand.class
+/DownloadCommand.class
+/HelpCommand.class
+/ListDirectoryCommand.class
+/MakeDirectoryCommand.class
+/ChangeDirectoryCommand.class
+/UploadCommand.class

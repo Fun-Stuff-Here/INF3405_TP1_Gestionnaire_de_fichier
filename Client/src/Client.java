@@ -1,5 +1,6 @@
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -8,7 +9,7 @@ public class Client
 	private static Socket socket;
 	
 	
-private static String getIPAddress() {
+public static String getIPAddress() {
 		
 		Scanner scanner = new Scanner(System.in);
 		while(true) {
@@ -29,12 +30,9 @@ private static String getIPAddress() {
 			System.out.println(e.getMessage());
 		}
 		}
-
-
-		
 	}	
 	
-private static int getPort() {
+public static int getPort() {
 		
 		Scanner scanner = new Scanner(System.in);
 		while(true) {
@@ -61,8 +59,8 @@ private static int getPort() {
 	public static void main(String[] args) throws Exception 
 	{
 		// Adresse et port du serveur
-		String serverAdress = getIPAddress();
-		int port = getPort();
+		String serverAdress ="127.0.0.1";// getIPAddress();
+		int port = 5012;//getPort();
 		
 		// Création d'une nouvelle connexion avec le serveur
 		socket = new Socket(serverAdress, port);
@@ -75,6 +73,24 @@ private static int getPort() {
 		// Attente de la réception d'un message envoyé par le serveur sur le canal
 		String helloMessageFromServer = in.readUTF();
 		System.out.println(helloMessageFromServer);
+		
+		
+		Scanner scanner = new Scanner(System.in);
+		DataOutputStream out =new DataOutputStream(socket.getOutputStream());
+		while(true) {
+			
+			String command = scanner.nextLine();
+			if(command.equals("stop")) break;
+			
+			out =new DataOutputStream(socket.getOutputStream());
+			out.writeUTF(command);
+			
+			in = new DataInputStream(socket.getInputStream());
+			String received = in.readUTF();
+			System.out.println(received);
+		}
+		
+		
 		
 		// Fermeture de la connexion avec le serveur
 		socket.close();
