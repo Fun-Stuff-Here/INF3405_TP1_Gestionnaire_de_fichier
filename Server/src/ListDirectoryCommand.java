@@ -16,19 +16,23 @@ public class ListDirectoryCommand extends BaseCommand{
 	@Override
 	public void execute(String[] args) throws IOException {
 		File f = invoker.getCurrentDirectory().toFile();
-		String[] items = f.list().clone();
-		if(items.length == 0)
+		File[] files = f.listFiles();
+		if(files.length == 0)
 		{send("Folder is empty");return;}
-		
-		for(int i =0; i<items.length;i++) {
-			if(items[i].startsWith("."))
-				items[i] = "[Hidden Folder]" + items[i] ;
-			else if(!items[i].contains(".")) 
-				items[i] = "[Folder]" + items[i];
-			else 
-				items[i] = "[File]" + items[i];
+				
+		String response="";
+		for(File file:files) {
+			if(file.isHidden() && file.isDirectory())
+				response+= "[Hidden Folder] ";
+			else if(file.isHidden() && file.isFile()) 
+				response = "[Hidden File] ";
+			else if(!file.isHidden() && file.isDirectory())
+				response += "[Folder] ";
+			else if(!file.isHidden() && file.isFile())
+				response += "[File] ";
+			response += file.getName() +"\n";
 		}
-		send(items);
+		send(response);
 	}
 
 	@Override

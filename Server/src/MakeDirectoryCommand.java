@@ -17,7 +17,7 @@ public class MakeDirectoryCommand extends BaseCommand{
 			send("Require folder name, please try again\n");
 			return;
 		}
-	    File directory = new File(invoker.getCurrentDirectory()+"/"+args[0]);
+	    File directory = new File(invoker.getCurrentDirectory().toString()+"/"+args[0]);
 	    if (! directory.exists()) directory.mkdir();
 	    
 		send("Le dossier "+args[0]+" a été créé.");
