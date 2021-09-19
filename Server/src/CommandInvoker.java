@@ -2,6 +2,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,7 +16,7 @@ public class CommandInvoker {
 	private Socket socket;
 	private Boolean active = true;
 	private HashMap<String, Command> commands;
-	private String currentDirectory;
+	private Path currentDirectory;
 	
 	private static final SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd@HH:mm:ss");
 	
@@ -35,7 +38,8 @@ public class CommandInvoker {
 		commands.put(DownloadCommand.ID, new DownloadCommand(this));
 		commands.put(UploadCommand.ID, new UploadCommand(this));
 		
-		currentDirectory = System.getProperty("user.dir");
+		currentDirectory = FileSystems.getDefault().getPath(System.getProperty("user.dir"));
+		
 	}
 	
 	/**
@@ -105,7 +109,7 @@ public class CommandInvoker {
 	 * 
 	 * @return path to current directory
 	 */
-	public String getCurrentDirectory() {
+	public Path getCurrentDirectory() {
 		return currentDirectory;
 	}
 
@@ -113,7 +117,7 @@ public class CommandInvoker {
 	 * 
 	 * @param currentDirectory
 	 */
-	public void setCurrentDirectory(String currentDirectory) {
+	public void setCurrentDirectory(Path currentDirectory) {
 		this.currentDirectory = currentDirectory;
 	}
 }

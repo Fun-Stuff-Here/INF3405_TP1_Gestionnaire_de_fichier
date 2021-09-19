@@ -15,8 +15,11 @@ public class ListDirectoryCommand extends BaseCommand{
 	
 	@Override
 	public void execute(String[] args) throws IOException {
-		File f = new File(invoker.getCurrentDirectory());
+		File f = invoker.getCurrentDirectory().toFile();
 		String[] items = f.list().clone();
+		if(items.length == 0)
+		{send("Folder is empty");return;}
+		
 		for(int i =0; i<items.length;i++) {
 			if(items[i].startsWith("."))
 				items[i] = "[Hidden Folder]" + items[i] ;

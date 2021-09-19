@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.nio.file.Path;
 
 public class ChangeDirectoryCommand extends BaseCommand{
 
@@ -12,7 +13,13 @@ public static final String ID = "cd";
 	
 	@Override
 	public void execute(String[] args) throws IOException {
-		send(ID +" command not yet implemented");
+		if(args.length == 0) {
+			invoker.getCommands().get("help").execute(new String[] {ID});
+			return;
+		}
+		Path newPath = invoker.getCurrentDirectory().resolve(args[0]).normalize();
+		invoker.setCurrentDirectory(newPath);
+		send("Vous êtes dans le dossier "+invoker.getCurrentDirectory().getFileName().toString()+".");
 	}
 
 	@Override
