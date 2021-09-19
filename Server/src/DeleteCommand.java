@@ -13,4 +13,9 @@ public class DeleteCommand extends BaseCommand{
 	public void execute(String[] args) throws IOException {
 		send(ID +" command not yet implemented");
 	}
+
+	@Override
+	public String getHelp() {
+		return "Remove and delete - args: <File name or Folder name>";
+	}
 }

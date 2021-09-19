@@ -14,6 +14,11 @@ public class UploadCommand extends BaseCommand{
 	public void execute(String[] args) throws IOException {
 		send(ID +" command not yet implemented");
 	}
+
+	@Override
+	public String getHelp() {
+		return "Upload to server specified file - Args: <File name>";
+	}
 	
 	
 }

@@ -76,8 +76,8 @@ public static int getPort() {
 
 		int nClient =0;
 
-		String serverAddress = getIPAddress();
-		int serverPort = getPort();	
+		String serverAddress = "127.0.0.1";//getIPAddress();
+		int serverPort = 5012;//getPort();	
 		
 		
 		//create and configure listener

@@ -73,11 +73,11 @@ public static int getPort() {
 	 * Main client side
 	 * @throws Exception
 	 */
-	public static void main() throws Exception 
+	public static void main(String[] args) throws Exception 
 	{
 		// Adresse and port for serveur
-		String serverAdress = getIPAddress();
-		int port = getPort();
+		String serverAdress = "127.0.0.1";//getIPAddress();
+		int port = 5012;//getPort();
 		
 		//Establish connexion with server
 		socket = new Socket(serverAdress, port);

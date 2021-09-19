@@ -3,7 +3,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class BaseCommand implements Command {
+public abstract class BaseCommand implements Command {
 
 	protected final String commandID;
 	protected final CommandInvoker invoker;
@@ -22,9 +22,7 @@ public class BaseCommand implements Command {
 	
 	
 	@Override
-	public void execute(String[] args) throws IOException {
-		send("Hello from server");
-	}
+	public abstract void execute(String[] args) throws IOException;
 	
 	/**
 	 * 
@@ -38,6 +36,14 @@ public class BaseCommand implements Command {
 		out.writeUTF(message);
 }
 	
+	protected void send(String[] messages) throws IOException{
+		String reponses ="";
+		for(String reponse:messages) {
+			reponses += reponse + "\n";
+		}
+		send(reponses);
+	}
+	
 	/**
 	 * 
 	 * @return message received from the client
@@ -49,12 +55,15 @@ public class BaseCommand implements Command {
 	}
 	
 	
-	/**
-	 * 
-	 * @return command ID
-	 */
+	@Override
 	public String getCommandID() {
 		return commandID;
 	}
+
+
+	@Override
+	public abstract String getHelp();
+	
+	
 	
 }

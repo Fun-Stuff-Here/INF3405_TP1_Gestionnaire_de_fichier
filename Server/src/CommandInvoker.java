@@ -13,6 +13,7 @@ public class CommandInvoker {
 	private Socket socket;
 	private Boolean active = true;
 	private HashMap<String, Command> commands;
+	private String currentDirectory;
 	
 	private static final SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd@HH:mm:ss");
 	
@@ -26,7 +27,6 @@ public class CommandInvoker {
 		commands = new HashMap<String, Command>();
 		
 		//create and insert all available commands
-		commands.put("Hi", new BaseCommand("Hi",this));
 		commands.put(HelpCommand.ID, new HelpCommand(this));
 		commands.put(ChangeDirectoryCommand.ID, new ChangeDirectoryCommand(this));
 		commands.put(ListDirectoryCommand.ID, new ListDirectoryCommand(this));
@@ -34,6 +34,8 @@ public class CommandInvoker {
 		commands.put(DeleteCommand.ID, new DeleteCommand(this));
 		commands.put(DownloadCommand.ID, new DownloadCommand(this));
 		commands.put(UploadCommand.ID, new UploadCommand(this));
+		
+		currentDirectory = System.getProperty("user.dir");
 	}
 	
 	/**
@@ -97,5 +99,21 @@ public class CommandInvoker {
 	 */
 	public HashMap<String, Command> getCommands(){
 		return commands;
+	}
+
+	/**
+	 * 
+	 * @return path to current directory
+	 */
+	public String getCurrentDirectory() {
+		return currentDirectory;
+	}
+
+	/**
+	 * 
+	 * @param currentDirectory
+	 */
+	public void setCurrentDirectory(String currentDirectory) {
+		this.currentDirectory = currentDirectory;
 	}
 }

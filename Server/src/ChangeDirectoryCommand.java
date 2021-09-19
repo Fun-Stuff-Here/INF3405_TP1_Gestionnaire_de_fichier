@@ -14,6 +14,11 @@ public static final String ID = "cd";
 	public void execute(String[] args) throws IOException {
 		send(ID +" command not yet implemented");
 	}
+
+	@Override
+	public String getHelp() {
+		return "Change directory to specified path (path = '..' for parent directory) - args: <path>";
+	}
 	
 	
 	
