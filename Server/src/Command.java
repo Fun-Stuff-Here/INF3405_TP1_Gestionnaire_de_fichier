@@ -5,9 +5,9 @@ public interface Command {
 	/**
 	 * 
 	 * @param args
-	 * @throws IOException
+	 * @throws Exception
 	 */
-	public void execute(String[] args) throws IOException;
+	public void execute(String[] args) throws Exception;
 	
 	/**
 	 * 

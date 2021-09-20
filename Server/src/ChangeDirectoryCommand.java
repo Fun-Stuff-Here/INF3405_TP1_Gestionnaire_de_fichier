@@ -12,7 +12,7 @@ public static final String ID = "cd";
 	public ChangeDirectoryCommand(CommandInvoker invoker) {super(ID, invoker);}
 	
 	@Override
-	public void execute(String[] args) throws IOException {
+	public void execute(String[] args) throws Exception {
 		if(args.length == 0) {
 			invoker.getCommands().get("help").execute(new String[] {ID});
 			return;

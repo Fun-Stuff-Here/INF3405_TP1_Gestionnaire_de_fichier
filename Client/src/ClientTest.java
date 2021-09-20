@@ -18,7 +18,7 @@ class ClientTest {
 			
 		System.setIn(goodIn);
 		
-		String ip = Client.getIPAddress();
+		String ip = Utils.getIPAddress();
 		
 		assertEquals(goodIP, ip);
 		

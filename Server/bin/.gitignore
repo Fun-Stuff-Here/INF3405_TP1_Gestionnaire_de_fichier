@@ -13,3 +13,8 @@
 /MakeDirectoryCommand.class
 /ChangeDirectoryCommand.class
 /UploadCommand.class
+/Message.class
+/DownloadCommand$InstructionsForClientDownload.class
+/InstructionsForClientDownload.class
+/Utils.class
+/SerializableLambda.class

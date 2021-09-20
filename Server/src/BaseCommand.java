@@ -1,6 +1,7 @@
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.Socket;
 
 public abstract class BaseCommand implements Command {
@@ -22,7 +23,7 @@ public abstract class BaseCommand implements Command {
 	
 	
 	@Override
-	public abstract void execute(String[] args) throws IOException;
+	public abstract void execute(String[] args) throws Exception;
 	
 	/**
 	 * 
@@ -30,18 +31,24 @@ public abstract class BaseCommand implements Command {
 	 * @throws IOException
 	 */
 	protected void send(String message) throws IOException {
-		//Création d'un canal sortant pour envoyer des messages au client
-		DataOutputStream out =new DataOutputStream(socket.getOutputStream());
-		//Envoie un message au client
-		out.writeUTF(message);
+		invoker.send(message);
 }
-	
+	/**
+	 * 
+	 * @param messages to send to client
+	 * @throws IOException
+	 */
 	protected void send(String[] messages) throws IOException{
-		String reponses ="";
-		for(String reponse:messages) {
-			reponses += reponse + "\n";
-		}
-		send(reponses);
+		invoker.send(messages);
+	}
+	
+	/**
+	 * 
+	 * @param message to send to client
+	 * @throws IOException
+	 */
+	protected void send(Message message) throws IOException{
+		invoker.send(message);
 	}
 	
 	/**

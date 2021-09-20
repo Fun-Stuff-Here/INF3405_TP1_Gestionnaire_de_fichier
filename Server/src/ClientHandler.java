@@ -35,7 +35,7 @@ public class ClientHandler extends Thread {
 				invoker.executeCommands();
 				
 				
-			} catch (IOException e) 
+			} catch (Exception e) 
 			{
 				System.out.println("Error handling client#"+clientNumber+": "+e);
 			}

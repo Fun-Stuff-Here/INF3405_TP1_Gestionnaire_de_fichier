@@ -1,6 +1,8 @@
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.Socket;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
@@ -11,8 +13,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class CommandInvoker {
+public class CommandInvoker implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private Socket socket;
 	private Boolean active = true;
 	private HashMap<String, Command> commands;
@@ -46,7 +49,7 @@ public class CommandInvoker {
 	 * routine that interact with the client and execute commands received
 	 * @throws IOException
 	 */
-	public void executeCommands() throws IOException {
+	public void executeCommands() throws Exception {
 		while(active) {
 			
 			//listen for client input
@@ -67,12 +70,47 @@ public class CommandInvoker {
 				commands.get(commandKey).execute(args);
 			else
 			{
-				DataOutputStream out =new DataOutputStream(socket.getOutputStream());
-				out.writeUTF("Unknown commands :" + commandKey);
+				send("Unknown commands :" + commandKey);
 			}
 		}
 	}
-
+	
+	/**
+	 * 
+	 * @param message
+	 * @throws IOException 
+	 */
+	public void send(Message message) throws IOException {
+		//Création d'un canal sortant pour envoyer des messages au client
+		ObjectOutputStream out =new ObjectOutputStream(socket.getOutputStream());
+		//Envoie un message au client
+		out.writeObject(message);
+	}
+	
+	/**
+	 * 
+	 * @param message to send to the client
+	 * @throws IOException
+	 */
+	public void send(String message) throws IOException {
+		send(new Message(message));
+	}
+	
+	/**
+	 * 
+	 * @param messages
+	 * @throws IOException
+	 */
+	public void send(String[] messages) throws IOException{
+		String reponses ="";
+		for(String reponse:messages) {
+			reponses += reponse + "\n";
+		}
+		send(reponses);
+	}
+	
+	
+	
 	/**
 	 * 
 	 * @return if invoker is active
