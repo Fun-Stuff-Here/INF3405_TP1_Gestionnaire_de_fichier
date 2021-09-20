@@ -56,9 +56,8 @@ public abstract class BaseCommand implements Command {
 	 * @return message received from the client
 	 * @throws IOException
 	 */
-	protected String getFromClient() throws IOException {
-		DataInputStream in = new DataInputStream(socket.getInputStream());
-		return in.readUTF();
+	protected Message getFromClient() throws Exception {
+		return invoker.getFromClient();
 	}
 	
 	

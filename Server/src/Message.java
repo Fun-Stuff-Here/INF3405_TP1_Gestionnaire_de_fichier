@@ -12,11 +12,9 @@ public class Message implements Serializable, Runnable {
 	private SerializableLambda function;
 	
 	/**
-	 * A message is use to transfer information between sever and client
+	 * A message is use to transfer information between sever and client 
 	 * @param log
-	 * @param object
-	 * @param method
-	 * @param args
+	 * @param function
 	 */
 	public Message(String log, SerializableLambda function) {
 		this.setLog(log);

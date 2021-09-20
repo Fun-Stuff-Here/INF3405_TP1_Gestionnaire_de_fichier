@@ -32,7 +32,7 @@ public class DownloadCommand  extends BaseCommand{
 			return file;
 		};
 		
-		send(new Message(""+ file.getName(),instructionsForClients));
+		send(new Message("",instructionsForClients));
 		FileInputStream fileinputStream = new FileInputStream(file);
 		BufferedInputStream bufferedinputStream = new BufferedInputStream(fileinputStream);
 		bufferedinputStream.read(byteArray,0,byteArray.length);

@@ -1,6 +1,7 @@
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
@@ -53,8 +54,8 @@ public class CommandInvoker implements Serializable{
 		while(active) {
 			
 			//listen for client input
-			DataInputStream in = new DataInputStream(socket.getInputStream());
-			String command = in.readUTF();
+			Message message = getFromClient();
+			String command = message.getLog();
 			
 			//log the incomming request
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -85,6 +86,7 @@ public class CommandInvoker implements Serializable{
 		ObjectOutputStream out =new ObjectOutputStream(socket.getOutputStream());
 		//Envoie un message au client
 		out.writeObject(message);
+		out.flush();
 	}
 	
 	/**
@@ -109,6 +111,12 @@ public class CommandInvoker implements Serializable{
 		send(reponses);
 	}
 	
+	public Message getFromClient() throws Exception{
+		//receive the command response
+		ObjectInputStream messageIn = new ObjectInputStream(socket.getInputStream());
+		Message message = (Message) messageIn.readObject();
+		return message;
+	}
 	
 	
 	/**
