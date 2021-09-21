@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import com.google.gson.Gson;
+
 public class CommandInvoker implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -21,6 +23,7 @@ public class CommandInvoker implements Serializable{
 	private Boolean active = true;
 	private HashMap<String, Command> commands;
 	private Path currentDirectory;
+	private static Gson gson;
 	
 	private static final SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd@HH:mm:ss");
 	
@@ -30,6 +33,7 @@ public class CommandInvoker implements Serializable{
 	 */
 	public CommandInvoker(Socket socket)
 	{
+		gson = new Gson();
 		this.socket = socket;
 		commands = new HashMap<String, Command>();
 		
@@ -83,9 +87,10 @@ public class CommandInvoker implements Serializable{
 	 */
 	public void send(Message message) throws IOException {
 		//Création d'un canal sortant pour envoyer des messages au client
-		ObjectOutputStream out =new ObjectOutputStream(socket.getOutputStream());
+		DataOutputStream out =new DataOutputStream(socket.getOutputStream());
 		//Envoie un message au client
-		out.writeObject(message);
+		String json =gson.toJson(message);
+		out.writeUTF(json);
 		out.flush();
 	}
 	
@@ -112,10 +117,11 @@ public class CommandInvoker implements Serializable{
 	}
 	
 	public Message getFromClient() throws Exception{
-		//receive the command response
-		ObjectInputStream messageIn = new ObjectInputStream(socket.getInputStream());
-		Message message = (Message) messageIn.readObject();
-		return message;
+		//create reception for what the client sends
+		DataInputStream in = new DataInputStream(socket.getInputStream());
+		//wait to receive from client
+		String json = in.readUTF();
+		return gson.fromJson(json, Message.class);
 	}
 	
 	

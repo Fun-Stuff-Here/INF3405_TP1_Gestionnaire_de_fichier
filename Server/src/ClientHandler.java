@@ -24,14 +24,9 @@ public class ClientHandler extends Thread {
 		{
 			try 
 			{
-				//Création d'un canal sortant pour envoyer des messages au client
-				DataOutputStream out =new DataOutputStream(socket.getOutputStream());
-				
-				//Envoie un message au client
-				out.writeUTF("Hello from server - you are client#"+ clientNumber);
-				
 				//create the invoker to received and execute commands
 				CommandInvoker invoker = new CommandInvoker(socket);
+				invoker.send(new Message("Hello from server - you are client#"+ clientNumber));				
 				invoker.executeCommands();
 				
 				

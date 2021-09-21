@@ -1,4 +1,12 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Scanner;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 public class Utils {
 	/**
@@ -64,4 +72,81 @@ public static int getPort() {
 			}
 		}
 }
+
+/**
+ * Delete recursevly all contents insider folder
+ * Source: https://www.baeldung.com/java-delete-directory
+ * @param directoryToBeDeleted
+ * @return true if success
+ */
+public static boolean deleteDirectory(File directoryToBeDeleted) throws Exception{
+    File[] allContents = directoryToBeDeleted.listFiles();
+    if (allContents != null) {
+        for (File file : allContents) {
+            deleteDirectory(file);
+        }
+    }
+    return directoryToBeDeleted.delete();
+}
+
+
+/**
+ * 
+ * @param file or directory
+ * @return zipped file
+ * @throws Exception
+ */
+public static File fileToZip(File file) throws Exception {
+	
+	File zippedFile = new File(file.getPath()+".zip");
+	
+	FileOutputStream fileOutputStream = new FileOutputStream(zippedFile);
+	ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
+	try {
+		addDirToZipArchive(zipOutputStream, file, null);
+	}
+	finally {
+		zipOutputStream.close();	
+		fileOutputStream.close();
+	}
+	return zippedFile;
+}
+
+
+/**
+ * add a directory to zip
+ * source: https://stackoverflow.com/questions/3961087/zipping-a-folder-which-contains-subfolders
+ * @param zos
+ * @param fileToZip
+ * @param parrentDirectoryName
+ * @throws Exception
+ */
+public static void addDirToZipArchive(ZipOutputStream zos, File fileToZip, String parrentDirectoryName) throws Exception {
+    if (fileToZip == null || !fileToZip.exists()) {
+        return;
+    }
+
+    String zipEntryName = fileToZip.getName();
+    if (parrentDirectoryName!=null && !parrentDirectoryName.isEmpty()) {
+        zipEntryName = parrentDirectoryName + "/" + fileToZip.getName();
+    }
+
+    if (fileToZip.isDirectory()) {
+        for (File file : fileToZip.listFiles()) {
+            addDirToZipArchive(zos, file, zipEntryName);
+        }
+    } else {
+        byte[] buffer = new byte[1024];
+        FileInputStream fis = new FileInputStream(fileToZip);
+        zos.putNextEntry(new ZipEntry(zipEntryName));
+        int length;
+        while ((length = fis.read(buffer)) > 0) {
+            zos.write(buffer, 0, length);
+        }
+        zos.closeEntry();
+        fis.close();
+    }
+}
+
+
 }

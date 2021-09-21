@@ -1,27 +1,23 @@
-import java.io.Serializable;
-import java.lang.reflect.Method;
-import java.util.concurrent.Callable;
-import java.util.function.Function;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Message implements Serializable, Runnable {
+import com.google.gson.Gson;
 
+public class Message implements Runnable{
 
-	//required long for serialization
-	private static final long serialVersionUID = 1L;
-	private String log;
-	private SerializableLambda function;
+	private final String log;
+	private final String data;
 	
 	/**
 	 * A message is use to transfer information between sever and client 
 	 * @param log
-	 * @param function
+	 * @param object
 	 */
-	public Message(String log, SerializableLambda function) {
-		this.setLog(log);
-		this.function = function;
-
+	public Message(String log, Map<String, String> data) {
+		this.log =log;
+		this.data = new Gson().toJson(data);
 	}
-	
+
 	/**
 	 * 
 	 * @param log
@@ -31,6 +27,10 @@ public class Message implements Serializable, Runnable {
 		this(log,null);
 	}
 
+	@Override
+	public void run() {
+		System.out.println(log);
+	}
 	
 	/**
 	 * 
@@ -42,30 +42,11 @@ public class Message implements Serializable, Runnable {
 
 	/**
 	 * 
-	 * @param log
+	 * @return data containing key-value String pair
 	 */
-	public void setLog(String log) {
-		this.log = log;
-	}
-
-	@Override
-	public void run() {
-		System.out.print(log);
-		if(function !=null)
-			try {
-				function.apply(null);
-			} catch (Exception e) {
-
-				e.printStackTrace();
-			}
+	public Map<String, String> getData() {
 		
+		return new Gson().fromJson(data, Map.class);
 	}
 
-	public Function<Object,Object> getFunction() {
-		return function;
-	}
-	
-	
-	
-	
 }

@@ -13,16 +13,12 @@ public class Server {
 
 	private static ServerSocket listener;
 
-	
-
-	
-	
 	public static void main(String[] args) throws Exception {
 
 		int nClient =0;
 
-		String serverAddress = "127.0.0.1";//getIPAddress();
-		int serverPort = 5012;//getPort();	
+		String serverAddress = Utils.getIPAddress();
+		int serverPort = Utils.getPort();
 		
 		
 		//create and configure listener
