@@ -15,10 +15,11 @@ public class Utils {
 	 */
 public static String getIPAddress() {
 		
-		Scanner scanner = new Scanner(System.in);
+		
 		while(true) {
 			
 			try {
+			Scanner scanner = new Scanner(System.in);
 			System.out.println("Enter a valid IP address:");
 			String iP = scanner.nextLine();
 			String[] ipByte = iP.split("\\.");
@@ -39,9 +40,6 @@ public static String getIPAddress() {
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 				}
-			finally {
-				scanner.close();
-			}
 		}
 
 	}	
@@ -51,9 +49,10 @@ public static String getIPAddress() {
 	 */
 public static int getPort() {
 		
-		Scanner scanner = new Scanner(System.in);
+		
 		while(true) {
 			try {
+			Scanner scanner = new Scanner(System.in);
 			System.out.println("Enter a valid Port number: ");
 			String portString = scanner.nextLine();
 			int port = Integer.parseInt(portString);
@@ -67,9 +66,7 @@ public static int getPort() {
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 				}
-			finally {
-				scanner.close();
-			}
+			
 		}
 }
 
